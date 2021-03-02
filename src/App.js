@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { FormStorage } from './form/Form';
+import Radio from './form/inputs/Radio';
+import { Select } from './form/inputs/Select';
 
-function App() {
+const configFields = [
+  {
+    id: 'cep',
+    label: 'CEP',
+    type: 'input::text',
+    initialValue: '',
+    placeholder: '00000-000',
+    validates: ['required', 'cep'],
+  },
+  {
+    id: 'email',
+    label: 'Email',
+    type: 'input::email',
+    initialValue: '',
+    validates: ['required', 'email'],
+  },
+  {
+    id: 'checkbox',
+    initialValue: ['Uva'],
+    type: 'checkbox',
+    options: ['Uva', 'Laranja', 'Limão'],
+  },
+];
+
+const App = () => {
+  const [produto, setProduto] = React.useState('');
+  const [cor, setCor] = React.useState('');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <FormStorage
+      configFields={configFields}
+      onSubmit={(values) => console.log('submit values', values)}
+    >
+      <Select
+        options={['Notebook', 'Smartphone', 'Tablet']}
+        value={produto}
+        setValue={setProduto}
+      />
+
+      <Radio
+        options={['azul', 'verde', 'amarelo']}
+        value={cor}
+        setValue={setCor}
+      />
+      <button>Enviar</button>
+    </FormStorage>
   );
-}
+};
 
 export default App;
